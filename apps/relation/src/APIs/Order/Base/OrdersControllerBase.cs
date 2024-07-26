@@ -18,7 +18,7 @@ public abstract class OrdersControllerBase : ControllerBase
     }
 
     /// <summary>
-    /// Create one Order
+    /// Create one order
     /// </summary>
     [HttpPost()]
     public async Task<ActionResult<Order>> CreateOrder(OrderCreateInput input)
@@ -29,7 +29,7 @@ public abstract class OrdersControllerBase : ControllerBase
     }
 
     /// <summary>
-    /// Delete one Order
+    /// Delete one order
     /// </summary>
     [HttpDelete("{Id}")]
     public async Task<ActionResult> DeleteOrder([FromRoute()] OrderWhereUniqueInput uniqueId)
@@ -56,7 +56,7 @@ public abstract class OrdersControllerBase : ControllerBase
     }
 
     /// <summary>
-    /// Get one Order
+    /// Get one order
     /// </summary>
     [HttpGet("{Id}")]
     public async Task<ActionResult<Order>> Order([FromRoute()] OrderWhereUniqueInput uniqueId)
@@ -84,7 +84,7 @@ public abstract class OrdersControllerBase : ControllerBase
     }
 
     /// <summary>
-    /// Meta data about Order records
+    /// Meta data about order records
     /// </summary>
     [HttpPost("meta")]
     public async Task<ActionResult<MetadataDto>> OrdersMeta([FromQuery()] OrderFindManyArgs filter)
@@ -93,7 +93,7 @@ public abstract class OrdersControllerBase : ControllerBase
     }
 
     /// <summary>
-    /// Update one Order
+    /// Update one order
     /// </summary>
     [HttpPatch("{Id}")]
     public async Task<ActionResult> UpdateOrder(
