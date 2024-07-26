@@ -19,7 +19,7 @@ public abstract class OrdersServiceBase : IOrdersService
     }
 
     /// <summary>
-    /// Create one order
+    /// Create one Order
     /// </summary>
     public async Task<Order> CreateOrder(OrderCreateInput createDto)
     {
@@ -55,7 +55,7 @@ public abstract class OrdersServiceBase : IOrdersService
     }
 
     /// <summary>
-    /// Delete one order
+    /// Delete one Order
     /// </summary>
     public async Task DeleteOrder(OrderWhereUniqueInput uniqueId)
     {
@@ -85,7 +85,7 @@ public abstract class OrdersServiceBase : IOrdersService
     }
 
     /// <summary>
-    /// Get one order
+    /// Get one Order
     /// </summary>
     public async Task<Order> Order(OrderWhereUniqueInput uniqueId)
     {
@@ -118,7 +118,7 @@ public abstract class OrdersServiceBase : IOrdersService
     }
 
     /// <summary>
-    /// Meta data about order records
+    /// Meta data about Order records
     /// </summary>
     public async Task<MetadataDto> OrdersMeta(OrderFindManyArgs findManyArgs)
     {
@@ -128,7 +128,7 @@ public abstract class OrdersServiceBase : IOrdersService
     }
 
     /// <summary>
-    /// Update one order
+    /// Update one Order
     /// </summary>
     public async Task UpdateOrder(OrderWhereUniqueInput uniqueId, OrderUpdateInput updateDto)
     {

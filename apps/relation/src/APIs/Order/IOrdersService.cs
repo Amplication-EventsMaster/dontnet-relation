@@ -6,12 +6,12 @@ namespace Relation.APIs;
 public interface IOrdersService
 {
     /// <summary>
-    /// Create one order
+    /// Create one Order
     /// </summary>
     public Task<Order> CreateOrder(OrderCreateInput order);
 
     /// <summary>
-    /// Delete one order
+    /// Delete one Order
     /// </summary>
     public Task DeleteOrder(OrderWhereUniqueInput uniqueId);
 
@@ -21,7 +21,7 @@ public interface IOrdersService
     public Task<List<Order>> Orders(OrderFindManyArgs findManyArgs);
 
     /// <summary>
-    /// Get one order
+    /// Get one Order
     /// </summary>
     public Task<Order> Order(OrderWhereUniqueInput uniqueId);
 
@@ -31,12 +31,12 @@ public interface IOrdersService
     public Task<Customer> GetCustomer(OrderWhereUniqueInput uniqueId);
 
     /// <summary>
-    /// Meta data about order records
+    /// Meta data about Order records
     /// </summary>
     public Task<MetadataDto> OrdersMeta(OrderFindManyArgs findManyArgs);
 
     /// <summary>
-    /// Update one order
+    /// Update one Order
     /// </summary>
     public Task UpdateOrder(OrderWhereUniqueInput uniqueId, OrderUpdateInput updateDto);
 }
