@@ -26,6 +26,30 @@ public interface IOrdersService
     public Task<Order> Order(OrderWhereUniqueInput uniqueId);
 
     /// <summary>
+    /// Connect multiple OrderItems records to Order
+    /// </summary>
+    public Task ConnectOrderItems(
+        OrderWhereUniqueInput uniqueId,
+        OrderItemWhereUniqueInput[] orderItemsId
+    );
+
+    /// <summary>
+    /// Disconnect multiple OrderItems records from Order
+    /// </summary>
+    public Task DisconnectOrderItems(
+        OrderWhereUniqueInput uniqueId,
+        OrderItemWhereUniqueInput[] orderItemsId
+    );
+
+    /// <summary>
+    /// Find multiple OrderItems records for Order
+    /// </summary>
+    public Task<List<OrderItem>> FindOrderItems(
+        OrderWhereUniqueInput uniqueId,
+        OrderItemFindManyArgs OrderItemFindManyArgs
+    );
+
+    /// <summary>
     /// Get a customer record for order
     /// </summary>
     public Task<Customer> GetCustomer(OrderWhereUniqueInput uniqueId);
@@ -34,6 +58,14 @@ public interface IOrdersService
     /// Meta data about Order records
     /// </summary>
     public Task<MetadataDto> OrdersMeta(OrderFindManyArgs findManyArgs);
+
+    /// <summary>
+    /// Update multiple OrderItems records for Order
+    /// </summary>
+    public Task UpdateOrderItems(
+        OrderWhereUniqueInput uniqueId,
+        OrderItemWhereUniqueInput[] orderItemsId
+    );
 
     /// <summary>
     /// Update one Order

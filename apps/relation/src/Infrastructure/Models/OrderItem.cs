@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Relation.Infrastructure.Models;
 
-[Table("Orders")]
-public class OrderDbModel
+[Table("OrderItems")]
+public class OrderItemDbModel
 {
     [Key()]
     [Required()]
@@ -16,12 +16,13 @@ public class OrderDbModel
     [Required()]
     public DateTime UpdatedAt { get; set; }
 
-    public string? CustomerId { get; set; }
-
-    [ForeignKey(nameof(CustomerId))]
-    public CustomerDbModel? Customer { get; set; } = null;
+    [StringLength(1000)]
+    public string? Name { get; set; }
 
     public DateTime? Date { get; set; }
 
-    public List<OrderItemDbModel>? OrderItems { get; set; } = new List<OrderItemDbModel>();
+    public string? OrderId { get; set; }
+
+    [ForeignKey(nameof(OrderId))]
+    public OrderDbModel? Order { get; set; } = null;
 }
