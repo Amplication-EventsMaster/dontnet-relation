@@ -1,16 +1,16 @@
 namespace Relation.APIs.Dtos;
 
-public class Order
+public class OrderItemCreateInput
 {
-    public string Id { get; set; }
+    public string? Id { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
     public DateTime UpdatedAt { get; set; }
 
-    public string Customer { get; set; }
+    public string? Name { get; set; }
 
     public DateTime? Date { get; set; }
 
-    public List<string>? OrderItems { get; set; }
+    public Order? Order { get; set; }
 }

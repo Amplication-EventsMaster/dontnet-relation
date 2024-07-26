@@ -1,6 +1,6 @@
 namespace Relation.APIs.Dtos;
 
-public class Order
+public class OrderItem
 {
     public string Id { get; set; }
 
@@ -8,9 +8,9 @@ public class Order
 
     public DateTime UpdatedAt { get; set; }
 
-    public string Customer { get; set; }
+    public string? Name { get; set; }
 
     public DateTime? Date { get; set; }
 
-    public List<string>? OrderItems { get; set; }
+    public string? Order { get; set; }
 }

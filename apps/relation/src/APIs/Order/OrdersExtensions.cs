@@ -14,6 +14,7 @@ public static class OrdersExtensions
             UpdatedAt = model.UpdatedAt,
             Customer = model.CustomerId,
             Date = model.Date,
+            OrderItems = model.OrderItems?.Select(x => x.Id).ToList(),
         };
     }
 
@@ -32,6 +33,10 @@ public static class OrdersExtensions
         if (updateDto.UpdatedAt != null)
         {
             order.UpdatedAt = updateDto.UpdatedAt.Value;
+        }
+        if (updateDto.Customer != null)
+        {
+            order.Customer = updateDto.Customer;
         }
 
         return order;

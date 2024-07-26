@@ -72,6 +72,67 @@ public abstract class OrdersControllerBase : ControllerBase
     }
 
     /// <summary>
+    /// Connect multiple OrderItems records to Order
+    /// </summary>
+    [HttpPost("{Id}/orderItems")]
+    public async Task<ActionResult> ConnectOrderItems(
+        [FromRoute()] OrderWhereUniqueInput uniqueId,
+        [FromQuery()] OrderItemWhereUniqueInput[] orderItemsId
+    )
+    {
+        try
+        {
+            await _service.ConnectOrderItems(uniqueId, orderItemsId);
+        }
+        catch (NotFoundException)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
+    }
+
+    /// <summary>
+    /// Disconnect multiple OrderItems records from Order
+    /// </summary>
+    [HttpDelete("{Id}/orderItems")]
+    public async Task<ActionResult> DisconnectOrderItems(
+        [FromRoute()] OrderWhereUniqueInput uniqueId,
+        [FromBody()] OrderItemWhereUniqueInput[] orderItemsId
+    )
+    {
+        try
+        {
+            await _service.DisconnectOrderItems(uniqueId, orderItemsId);
+        }
+        catch (NotFoundException)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
+    }
+
+    /// <summary>
+    /// Find multiple OrderItems records for Order
+    /// </summary>
+    [HttpGet("{Id}/orderItems")]
+    public async Task<ActionResult<List<OrderItem>>> FindOrderItems(
+        [FromRoute()] OrderWhereUniqueInput uniqueId,
+        [FromQuery()] OrderItemFindManyArgs filter
+    )
+    {
+        try
+        {
+            return Ok(await _service.FindOrderItems(uniqueId, filter));
+        }
+        catch (NotFoundException)
+        {
+            return NotFound();
+        }
+    }
+
+    /// <summary>
     /// Get a customer record for order
     /// </summary>
     [HttpGet("{Id}/customers")]
@@ -90,6 +151,27 @@ public abstract class OrdersControllerBase : ControllerBase
     public async Task<ActionResult<MetadataDto>> OrdersMeta([FromQuery()] OrderFindManyArgs filter)
     {
         return Ok(await _service.OrdersMeta(filter));
+    }
+
+    /// <summary>
+    /// Update multiple OrderItems records for Order
+    /// </summary>
+    [HttpPatch("{Id}/orderItems")]
+    public async Task<ActionResult> UpdateOrderItems(
+        [FromRoute()] OrderWhereUniqueInput uniqueId,
+        [FromBody()] OrderItemWhereUniqueInput[] orderItemsId
+    )
+    {
+        try
+        {
+            await _service.UpdateOrderItems(uniqueId, orderItemsId);
+        }
+        catch (NotFoundException)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
     }
 
     /// <summary>

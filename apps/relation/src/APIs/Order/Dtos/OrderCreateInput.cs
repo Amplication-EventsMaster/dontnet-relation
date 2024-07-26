@@ -8,7 +8,9 @@ public class OrderCreateInput
 
     public DateTime UpdatedAt { get; set; }
 
-    public Customer? Customer { get; set; }
+    public Customer Customer { get; set; }
 
     public DateTime? Date { get; set; }
+
+    public List<OrderItem>? OrderItems { get; set; }
 }
