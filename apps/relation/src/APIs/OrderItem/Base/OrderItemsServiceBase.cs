@@ -86,6 +86,16 @@ public abstract class OrderItemsServiceBase : IOrderItemsService
     }
 
     /// <summary>
+    /// Meta data about OrderItem records
+    /// </summary>
+    public async Task<MetadataDto> OrderItemsMeta(OrderItemFindManyArgs findManyArgs)
+    {
+        var count = await _context.OrderItems.ApplyWhere(findManyArgs.Where).CountAsync();
+
+        return new MetadataDto { Count = count };
+    }
+
+    /// <summary>
     /// Get one OrderItem
     /// </summary>
     public async Task<OrderItem> OrderItem(OrderItemWhereUniqueInput uniqueId)
@@ -100,32 +110,6 @@ public abstract class OrderItemsServiceBase : IOrderItemsService
         }
 
         return orderItem;
-    }
-
-    /// <summary>
-    /// Get a Order record for OrderItem
-    /// </summary>
-    public async Task<Order> GetOrder(OrderItemWhereUniqueInput uniqueId)
-    {
-        var orderItem = await _context
-            .OrderItems.Where(orderItem => orderItem.Id == uniqueId.Id)
-            .Include(orderItem => orderItem.Order)
-            .FirstOrDefaultAsync();
-        if (orderItem == null)
-        {
-            throw new NotFoundException();
-        }
-        return orderItem.Order.ToDto();
-    }
-
-    /// <summary>
-    /// Meta data about OrderItem records
-    /// </summary>
-    public async Task<MetadataDto> OrderItemsMeta(OrderItemFindManyArgs findManyArgs)
-    {
-        var count = await _context.OrderItems.ApplyWhere(findManyArgs.Where).CountAsync();
-
-        return new MetadataDto { Count = count };
     }
 
     /// <summary>
@@ -155,5 +139,21 @@ public abstract class OrderItemsServiceBase : IOrderItemsService
                 throw;
             }
         }
+    }
+
+    /// <summary>
+    /// Get a Order record for OrderItem
+    /// </summary>
+    public async Task<Order> GetOrder(OrderItemWhereUniqueInput uniqueId)
+    {
+        var orderItem = await _context
+            .OrderItems.Where(orderItem => orderItem.Id == uniqueId.Id)
+            .Include(orderItem => orderItem.Order)
+            .FirstOrDefaultAsync();
+        if (orderItem == null)
+        {
+            throw new NotFoundException();
+        }
+        return orderItem.Order.ToDto();
     }
 }

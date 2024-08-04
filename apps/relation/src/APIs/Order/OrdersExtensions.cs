@@ -25,14 +25,13 @@ public static class OrdersExtensions
     {
         var order = new OrderDbModel { Id = uniqueId.Id, Date = updateDto.Date };
 
-        // map required fields
         if (updateDto.CreatedAt != null)
         {
             order.CreatedAt = updateDto.CreatedAt.Value;
         }
         if (updateDto.Customer != null)
         {
-            order.Customer = updateDto.Customer;
+            order.CustomerId = updateDto.Customer;
         }
         if (updateDto.UpdatedAt != null)
         {

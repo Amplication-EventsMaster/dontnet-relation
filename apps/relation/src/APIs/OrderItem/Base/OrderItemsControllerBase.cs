@@ -60,6 +60,17 @@ public abstract class OrderItemsControllerBase : ControllerBase
     }
 
     /// <summary>
+    /// Meta data about OrderItem records
+    /// </summary>
+    [HttpPost("meta")]
+    public async Task<ActionResult<MetadataDto>> OrderItemsMeta(
+        [FromQuery()] OrderItemFindManyArgs filter
+    )
+    {
+        return Ok(await _service.OrderItemsMeta(filter));
+    }
+
+    /// <summary>
     /// Get one OrderItem
     /// </summary>
     [HttpGet("{Id}")]
@@ -75,29 +86,6 @@ public abstract class OrderItemsControllerBase : ControllerBase
         {
             return NotFound();
         }
-    }
-
-    /// <summary>
-    /// Get a Order record for OrderItem
-    /// </summary>
-    [HttpGet("{Id}/orders")]
-    public async Task<ActionResult<List<Order>>> GetOrder(
-        [FromRoute()] OrderItemWhereUniqueInput uniqueId
-    )
-    {
-        var order = await _service.GetOrder(uniqueId);
-        return Ok(order);
-    }
-
-    /// <summary>
-    /// Meta data about OrderItem records
-    /// </summary>
-    [HttpPost("meta")]
-    public async Task<ActionResult<MetadataDto>> OrderItemsMeta(
-        [FromQuery()] OrderItemFindManyArgs filter
-    )
-    {
-        return Ok(await _service.OrderItemsMeta(filter));
     }
 
     /// <summary>
@@ -119,5 +107,17 @@ public abstract class OrderItemsControllerBase : ControllerBase
         }
 
         return NoContent();
+    }
+
+    /// <summary>
+    /// Get a Order record for OrderItem
+    /// </summary>
+    [HttpGet("{Id}/orders")]
+    public async Task<ActionResult<List<Order>>> GetOrder(
+        [FromRoute()] OrderItemWhereUniqueInput uniqueId
+    )
+    {
+        var order = await _service.GetOrder(uniqueId);
+        return Ok(order);
     }
 }
