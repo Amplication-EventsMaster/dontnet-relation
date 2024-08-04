@@ -21,22 +21,22 @@ public interface IOrderItemsService
     public Task<List<OrderItem>> OrderItems(OrderItemFindManyArgs findManyArgs);
 
     /// <summary>
-    /// Get one OrderItem
-    /// </summary>
-    public Task<OrderItem> OrderItem(OrderItemWhereUniqueInput uniqueId);
-
-    /// <summary>
-    /// Get a Order record for OrderItem
-    /// </summary>
-    public Task<Order> GetOrder(OrderItemWhereUniqueInput uniqueId);
-
-    /// <summary>
     /// Meta data about OrderItem records
     /// </summary>
     public Task<MetadataDto> OrderItemsMeta(OrderItemFindManyArgs findManyArgs);
 
     /// <summary>
+    /// Get one OrderItem
+    /// </summary>
+    public Task<OrderItem> OrderItem(OrderItemWhereUniqueInput uniqueId);
+
+    /// <summary>
     /// Update one OrderItem
     /// </summary>
     public Task UpdateOrderItem(OrderItemWhereUniqueInput uniqueId, OrderItemUpdateInput updateDto);
+
+    /// <summary>
+    /// Get a Order record for OrderItem
+    /// </summary>
+    public Task<Order> GetOrder(OrderItemWhereUniqueInput uniqueId);
 }

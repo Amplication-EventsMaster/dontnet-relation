@@ -30,7 +30,6 @@ public static class CustomersExtensions
             Phone = updateDto.Phone
         };
 
-        // map required fields
         if (updateDto.CreatedAt != null)
         {
             customer.CreatedAt = updateDto.CreatedAt.Value;

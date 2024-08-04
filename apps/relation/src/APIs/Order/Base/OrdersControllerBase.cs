@@ -56,6 +56,15 @@ public abstract class OrdersControllerBase : ControllerBase
     }
 
     /// <summary>
+    /// Meta data about Order records
+    /// </summary>
+    [HttpPost("meta")]
+    public async Task<ActionResult<MetadataDto>> OrdersMeta([FromQuery()] OrderFindManyArgs filter)
+    {
+        return Ok(await _service.OrdersMeta(filter));
+    }
+
+    /// <summary>
     /// Get one Order
     /// </summary>
     [HttpGet("{Id}")]
@@ -69,6 +78,39 @@ public abstract class OrdersControllerBase : ControllerBase
         {
             return NotFound();
         }
+    }
+
+    /// <summary>
+    /// Update one Order
+    /// </summary>
+    [HttpPatch("{Id}")]
+    public async Task<ActionResult> UpdateOrder(
+        [FromRoute()] OrderWhereUniqueInput uniqueId,
+        [FromQuery()] OrderUpdateInput orderUpdateDto
+    )
+    {
+        try
+        {
+            await _service.UpdateOrder(uniqueId, orderUpdateDto);
+        }
+        catch (NotFoundException)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
+    }
+
+    /// <summary>
+    /// Get a customer record for order
+    /// </summary>
+    [HttpGet("{Id}/customers")]
+    public async Task<ActionResult<List<Customer>>> GetCustomer(
+        [FromRoute()] OrderWhereUniqueInput uniqueId
+    )
+    {
+        var customer = await _service.GetCustomer(uniqueId);
+        return Ok(customer);
     }
 
     /// <summary>
@@ -133,27 +175,6 @@ public abstract class OrdersControllerBase : ControllerBase
     }
 
     /// <summary>
-    /// Get a customer record for order
-    /// </summary>
-    [HttpGet("{Id}/customers")]
-    public async Task<ActionResult<List<Customer>>> GetCustomer(
-        [FromRoute()] OrderWhereUniqueInput uniqueId
-    )
-    {
-        var customer = await _service.GetCustomer(uniqueId);
-        return Ok(customer);
-    }
-
-    /// <summary>
-    /// Meta data about Order records
-    /// </summary>
-    [HttpPost("meta")]
-    public async Task<ActionResult<MetadataDto>> OrdersMeta([FromQuery()] OrderFindManyArgs filter)
-    {
-        return Ok(await _service.OrdersMeta(filter));
-    }
-
-    /// <summary>
     /// Update multiple OrderItems records for Order
     /// </summary>
     [HttpPatch("{Id}/orderItems")]
@@ -165,27 +186,6 @@ public abstract class OrdersControllerBase : ControllerBase
         try
         {
             await _service.UpdateOrderItems(uniqueId, orderItemsId);
-        }
-        catch (NotFoundException)
-        {
-            return NotFound();
-        }
-
-        return NoContent();
-    }
-
-    /// <summary>
-    /// Update one Order
-    /// </summary>
-    [HttpPatch("{Id}")]
-    public async Task<ActionResult> UpdateOrder(
-        [FromRoute()] OrderWhereUniqueInput uniqueId,
-        [FromQuery()] OrderUpdateInput orderUpdateDto
-    )
-    {
-        try
-        {
-            await _service.UpdateOrder(uniqueId, orderUpdateDto);
         }
         catch (NotFoundException)
         {

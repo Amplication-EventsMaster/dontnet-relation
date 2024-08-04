@@ -95,119 +95,6 @@ public abstract class OrdersServiceBase : IOrdersService
     }
 
     /// <summary>
-    /// Get one Order
-    /// </summary>
-    public async Task<Order> Order(OrderWhereUniqueInput uniqueId)
-    {
-        var orders = await this.orders(
-            new OrderFindManyArgs { Where = new OrderWhereInput { Id = uniqueId.Id } }
-        );
-        var order = orders.FirstOrDefault();
-        if (order == null)
-        {
-            throw new NotFoundException();
-        }
-
-        return order;
-    }
-
-    /// <summary>
-    /// Connect multiple OrderItems records to Order
-    /// </summary>
-    public async Task ConnectOrderItems(
-        OrderWhereUniqueInput uniqueId,
-        OrderItemWhereUniqueInput[] orderItemsId
-    )
-    {
-        var order = await _context
-            .Orders.Include(x => x.OrderItems)
-            .FirstOrDefaultAsync(x => x.Id == uniqueId.Id);
-        if (order == null)
-        {
-            throw new NotFoundException();
-        }
-
-        var orderItems = await _context
-            .OrderItems.Where(t => orderItemsId.Select(x => x.Id).Contains(t.Id))
-            .ToListAsync();
-        if (orderItems.Count == 0)
-        {
-            throw new NotFoundException();
-        }
-
-        var orderItemsToConnect = orderItems.Except(order.OrderItems);
-
-        foreach (var orderItem in orderItemsToConnect)
-        {
-            order.OrderItems.Add(orderItem);
-        }
-
-        await _context.SaveChangesAsync();
-    }
-
-    /// <summary>
-    /// Disconnect multiple OrderItems records from Order
-    /// </summary>
-    public async Task DisconnectOrderItems(
-        OrderWhereUniqueInput uniqueId,
-        OrderItemWhereUniqueInput[] orderItemsId
-    )
-    {
-        var order = await _context
-            .Orders.Include(x => x.OrderItems)
-            .FirstOrDefaultAsync(x => x.Id == uniqueId.Id);
-        if (order == null)
-        {
-            throw new NotFoundException();
-        }
-
-        var orderItems = await _context
-            .OrderItems.Where(t => orderItemsId.Select(x => x.Id).Contains(t.Id))
-            .ToListAsync();
-
-        foreach (var orderItem in orderItems)
-        {
-            order.OrderItems?.Remove(orderItem);
-        }
-        await _context.SaveChangesAsync();
-    }
-
-    /// <summary>
-    /// Find multiple OrderItems records for Order
-    /// </summary>
-    public async Task<List<OrderItem>> FindOrderItems(
-        OrderWhereUniqueInput uniqueId,
-        OrderItemFindManyArgs orderFindManyArgs
-    )
-    {
-        var orderItems = await _context
-            .OrderItems.Where(m => m.OrderId == uniqueId.Id)
-            .ApplyWhere(orderFindManyArgs.Where)
-            .ApplySkip(orderFindManyArgs.Skip)
-            .ApplyTake(orderFindManyArgs.Take)
-            .ApplyOrderBy(orderFindManyArgs.SortBy)
-            .ToListAsync();
-
-        return orderItems.Select(x => x.ToDto()).ToList();
-    }
-
-    /// <summary>
-    /// Get a customer record for order
-    /// </summary>
-    public async Task<Customer> GetCustomer(OrderWhereUniqueInput uniqueId)
-    {
-        var order = await _context
-            .Orders.Where(order => order.Id == uniqueId.Id)
-            .Include(order => order.Customer)
-            .FirstOrDefaultAsync();
-        if (order == null)
-        {
-            throw new NotFoundException();
-        }
-        return order.Customer.ToDto();
-    }
-
-    /// <summary>
     /// Meta data about Order records
     /// </summary>
     public async Task<MetadataDto> OrdersMeta(OrderFindManyArgs findManyArgs)
@@ -218,32 +105,20 @@ public abstract class OrdersServiceBase : IOrdersService
     }
 
     /// <summary>
-    /// Update multiple OrderItems records for Order
+    /// Get one Order
     /// </summary>
-    public async Task UpdateOrderItems(
-        OrderWhereUniqueInput uniqueId,
-        OrderItemWhereUniqueInput[] orderItemsId
-    )
+    public async Task<Order> Order(OrderWhereUniqueInput uniqueId)
     {
-        var order = await _context
-            .Orders.Include(t => t.OrderItems)
-            .FirstOrDefaultAsync(x => x.Id == uniqueId.Id);
+        var orders = await this.Orders(
+            new OrderFindManyArgs { Where = new OrderWhereInput { Id = uniqueId.Id } }
+        );
+        var order = orders.FirstOrDefault();
         if (order == null)
         {
             throw new NotFoundException();
         }
 
-        var orderItems = await _context
-            .OrderItems.Where(a => orderItemsId.Select(x => x.Id).Contains(a.Id))
-            .ToListAsync();
-
-        if (orderItems.Count == 0)
-        {
-            throw new NotFoundException();
-        }
-
-        order.OrderItems = orderItems;
-        await _context.SaveChangesAsync();
+        return order;
     }
 
     /// <summary>
@@ -279,5 +154,130 @@ public abstract class OrdersServiceBase : IOrdersService
                 throw;
             }
         }
+    }
+
+    /// <summary>
+    /// Get a customer record for order
+    /// </summary>
+    public async Task<Customer> GetCustomer(OrderWhereUniqueInput uniqueId)
+    {
+        var order = await _context
+            .Orders.Where(order => order.Id == uniqueId.Id)
+            .Include(order => order.Customer)
+            .FirstOrDefaultAsync();
+        if (order == null)
+        {
+            throw new NotFoundException();
+        }
+        return order.Customer.ToDto();
+    }
+
+    /// <summary>
+    /// Connect multiple OrderItems records to Order
+    /// </summary>
+    public async Task ConnectOrderItems(
+        OrderWhereUniqueInput uniqueId,
+        OrderItemWhereUniqueInput[] orderItemsId
+    )
+    {
+        var parent = await _context
+            .Orders.Include(x => x.OrderItems)
+            .FirstOrDefaultAsync(x => x.Id == uniqueId.Id);
+        if (parent == null)
+        {
+            throw new NotFoundException();
+        }
+
+        var orderItems = await _context
+            .OrderItems.Where(t => orderItemsId.Select(x => x.Id).Contains(t.Id))
+            .ToListAsync();
+        if (orderItems.Count == 0)
+        {
+            throw new NotFoundException();
+        }
+
+        var orderItemsToConnect = orderItems.Except(parent.OrderItems);
+
+        foreach (var orderItem in orderItemsToConnect)
+        {
+            parent.OrderItems.Add(orderItem);
+        }
+
+        await _context.SaveChangesAsync();
+    }
+
+    /// <summary>
+    /// Disconnect multiple OrderItems records from Order
+    /// </summary>
+    public async Task DisconnectOrderItems(
+        OrderWhereUniqueInput uniqueId,
+        OrderItemWhereUniqueInput[] orderItemsId
+    )
+    {
+        var parent = await _context
+            .Orders.Include(x => x.OrderItems)
+            .FirstOrDefaultAsync(x => x.Id == uniqueId.Id);
+        if (parent == null)
+        {
+            throw new NotFoundException();
+        }
+
+        var orderItems = await _context
+            .OrderItems.Where(t => orderItemsId.Select(x => x.Id).Contains(t.Id))
+            .ToListAsync();
+
+        foreach (var orderItem in orderItems)
+        {
+            parent.OrderItems?.Remove(orderItem);
+        }
+        await _context.SaveChangesAsync();
+    }
+
+    /// <summary>
+    /// Find multiple OrderItems records for Order
+    /// </summary>
+    public async Task<List<OrderItem>> FindOrderItems(
+        OrderWhereUniqueInput uniqueId,
+        OrderItemFindManyArgs orderFindManyArgs
+    )
+    {
+        var orderItems = await _context
+            .OrderItems.Where(m => m.OrderId == uniqueId.Id)
+            .ApplyWhere(orderFindManyArgs.Where)
+            .ApplySkip(orderFindManyArgs.Skip)
+            .ApplyTake(orderFindManyArgs.Take)
+            .ApplyOrderBy(orderFindManyArgs.SortBy)
+            .ToListAsync();
+
+        return orderItems.Select(x => x.ToDto()).ToList();
+    }
+
+    /// <summary>
+    /// Update multiple OrderItems records for Order
+    /// </summary>
+    public async Task UpdateOrderItems(
+        OrderWhereUniqueInput uniqueId,
+        OrderItemWhereUniqueInput[] orderItemsId
+    )
+    {
+        var order = await _context
+            .Orders.Include(t => t.OrderItems)
+            .FirstOrDefaultAsync(x => x.Id == uniqueId.Id);
+        if (order == null)
+        {
+            throw new NotFoundException();
+        }
+
+        var orderItems = await _context
+            .OrderItems.Where(a => orderItemsId.Select(x => x.Id).Contains(a.Id))
+            .ToListAsync();
+
+        if (orderItems.Count == 0)
+        {
+            throw new NotFoundException();
+        }
+
+        order.OrderItems = orderItems;
+        await _context.SaveChangesAsync();
     }
 }

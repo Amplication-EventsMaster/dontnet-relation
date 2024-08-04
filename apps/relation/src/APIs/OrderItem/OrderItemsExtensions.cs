@@ -30,10 +30,13 @@ public static class OrderItemsExtensions
             Name = updateDto.Name
         };
 
-        // map required fields
         if (updateDto.CreatedAt != null)
         {
             orderItem.CreatedAt = updateDto.CreatedAt.Value;
+        }
+        if (updateDto.Order != null)
+        {
+            orderItem.OrderId = updateDto.Order;
         }
         if (updateDto.UpdatedAt != null)
         {
