@@ -9,12 +9,12 @@ public static class OrdersExtensions
     {
         return new Order
         {
-            Id = model.Id,
             CreatedAt = model.CreatedAt,
-            UpdatedAt = model.UpdatedAt,
             Customer = model.CustomerId,
             Date = model.Date,
+            Id = model.Id,
             OrderItems = model.OrderItems?.Select(x => x.Id).ToList(),
+            UpdatedAt = model.UpdatedAt,
         };
     }
 
@@ -30,13 +30,13 @@ public static class OrdersExtensions
         {
             order.CreatedAt = updateDto.CreatedAt.Value;
         }
-        if (updateDto.UpdatedAt != null)
-        {
-            order.UpdatedAt = updateDto.UpdatedAt.Value;
-        }
         if (updateDto.Customer != null)
         {
             order.Customer = updateDto.Customer;
+        }
+        if (updateDto.UpdatedAt != null)
+        {
+            order.UpdatedAt = updateDto.UpdatedAt.Value;
         }
 
         return order;

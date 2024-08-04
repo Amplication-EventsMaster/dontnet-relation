@@ -6,15 +6,8 @@ namespace Relation.Infrastructure.Models;
 [Table("Orders")]
 public class OrderDbModel
 {
-    [Key()]
-    [Required()]
-    public string Id { get; set; }
-
     [Required()]
     public DateTime CreatedAt { get; set; }
-
-    [Required()]
-    public DateTime UpdatedAt { get; set; }
 
     public string CustomerId { get; set; }
 
@@ -23,5 +16,12 @@ public class OrderDbModel
 
     public DateTime? Date { get; set; }
 
+    [Key()]
+    [Required()]
+    public string Id { get; set; }
+
     public List<OrderItemDbModel>? OrderItems { get; set; } = new List<OrderItemDbModel>();
+
+    [Required()]
+    public DateTime UpdatedAt { get; set; }
 }

@@ -9,12 +9,12 @@ public static class OrderItemsExtensions
     {
         return new OrderItem
         {
-            Id = model.Id,
             CreatedAt = model.CreatedAt,
-            UpdatedAt = model.UpdatedAt,
-            Name = model.Name,
             Date = model.Date,
+            Id = model.Id,
+            Name = model.Name,
             Order = model.OrderId,
+            UpdatedAt = model.UpdatedAt,
         };
     }
 
@@ -26,8 +26,8 @@ public static class OrderItemsExtensions
         var orderItem = new OrderItemDbModel
         {
             Id = uniqueId.Id,
-            Name = updateDto.Name,
-            Date = updateDto.Date
+            Date = updateDto.Date,
+            Name = updateDto.Name
         };
 
         // map required fields

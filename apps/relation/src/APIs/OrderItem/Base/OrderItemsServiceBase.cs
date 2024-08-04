@@ -26,9 +26,9 @@ public abstract class OrderItemsServiceBase : IOrderItemsService
         var orderItem = new OrderItemDbModel
         {
             CreatedAt = createDto.CreatedAt,
-            UpdatedAt = createDto.UpdatedAt,
+            Date = createDto.Date,
             Name = createDto.Name,
-            Date = createDto.Date
+            UpdatedAt = createDto.UpdatedAt
         };
 
         if (createDto.Id != null)

@@ -9,12 +9,12 @@ public static class CustomersExtensions
     {
         return new Customer
         {
-            Id = model.Id,
             CreatedAt = model.CreatedAt,
-            UpdatedAt = model.UpdatedAt,
+            Id = model.Id,
             Name = model.Name,
-            Phone = model.Phone,
             Orders = model.Orders?.Select(x => x.Id).ToList(),
+            Phone = model.Phone,
+            UpdatedAt = model.UpdatedAt,
         };
     }
 
