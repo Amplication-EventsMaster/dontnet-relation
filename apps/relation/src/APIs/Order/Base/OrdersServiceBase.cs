@@ -26,8 +26,8 @@ public abstract class OrdersServiceBase : IOrdersService
         var order = new OrderDbModel
         {
             CreatedAt = createDto.CreatedAt,
-            UpdatedAt = createDto.UpdatedAt,
-            Date = createDto.Date
+            Date = createDto.Date,
+            UpdatedAt = createDto.UpdatedAt
         };
 
         if (createDto.Id != null)

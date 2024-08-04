@@ -26,9 +26,9 @@ public abstract class CustomersServiceBase : ICustomersService
         var customer = new CustomerDbModel
         {
             CreatedAt = createDto.CreatedAt,
-            UpdatedAt = createDto.UpdatedAt,
             Name = createDto.Name,
-            Phone = createDto.Phone
+            Phone = createDto.Phone,
+            UpdatedAt = createDto.UpdatedAt
         };
 
         if (createDto.Id != null)
